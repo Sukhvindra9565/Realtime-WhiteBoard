@@ -13,6 +13,10 @@ app.get("/",(req,res)=>{
 })
 
 io.on("Connection",(Socket)=>{
-    console.log("User connected");
+    Socket.on("userJoined",(data)=>{
+        const {name,userId,roomId,host,presenter} = data;
+        Socket.join(roomId);
+        Socket.emit("userIsJoined",{success:true});
+    })
 })
 server.listen(port,()=>console.log("Server is running on http://localhost:5000"));
